@@ -90,9 +90,8 @@ def update_prices():
 			group_disc.size if group_disc else 0,
 			product_disc if product_disc else 0)
 
-		if disc:
-			new_price = p.price * disc * 0.01
+		new_price = p.price * disc * 0.01
 
-			if new_price != p.actual_price:
-				p.actual_price = new_price
-				p.save()
+		if new_price != p.actual_price:
+			p.actual_price = new_price
+			p.save()
