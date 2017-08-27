@@ -1,0 +1,18 @@
+1) создание и переход на новую  ветку feature_1
+git checkout -b feature_1
+
+
+2) сделать два коммита
+git add file.txt
+git commit -m 'Commit 1'
+git add file.txt
+git commit -m 'Commit 2'
+
+
+3) удалить второй коммит вместе  с изменениями
+git reset --hard HEAD~1
+
+
+4) смержить эту ветку в master
+git checkout master
+git merge feature_1
