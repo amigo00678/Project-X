@@ -17,35 +17,42 @@ CREATE TABLE image (
 )
 '''
 
-class Integer(object):
-	def __init__(self):
-		self.value = 0
-
-	def __set__(self, obj, value):
-		if type(self.value) != type(value):
-			raise TypeError('Assigning value of wrong type!')
-		self.value = value
-
+class Property(object):
 	def __get__(self, instance, owner):
 		if not instance:
 			return self
 		return self.value
 
+	def __set__(self, obj, value):
+		if type(self.value) != type(value):
+			raise TypeError('Assigning value of wrong type!')
+		self.value = value
+
+	def sql(self):
+		return ''
+
+
+class Integer(Property):
+	def __init__(self):
+		self.value = 0
+
 	def sql(self):
 		return 'integer'
 
 
-class Str(object):
+class Str(Property):
 	def __init__(self, max_l=128):
 		self.value = ''
 		self.max_l=max_l
 
 	def __set__(self, obj, value):
-		if type(self.value) != type(value):
-			raise TypeError('Assigning value of wrong type!')
-		if len(value) > self.max_l:
-			raise ValueError('Assigning value of wrong size!')
-		self.value = value
+		try:
+			if len(value) > self.max_l:
+				raise ValueError('Assigning value of wrong size!')
+		except TypeError:
+			pass
+
+		super(Str, self).__set__(obj, value)
 
 	def sql(self):
 		return 'varchar('+str(self.max_l)+')'
@@ -98,11 +105,25 @@ try:
 except TypeError:
 	pass
 
+i.path = 'hello!'
+print(i.path)
+ppath = i.path
+
+try:
+	i.path = 1
+	print('Wrong type value assigned!')
+except TypeError:
+	pass
+
+assert ppath == i.path
+
 try:
 	i.path='hello! hello! hello!'
 	print('Wrong size value assigned!')
 except ValueError:
 	pass
+
+assert ppath == i.path
 
 try:
 	print(EmptyTalbe.sql())
