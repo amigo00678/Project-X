@@ -23,13 +23,14 @@ status smallint (0 - не продан, 1 – продан)
 8985545444 | 0
 
 
-select phone, (select count(*) from items where user_id = any(users) and status=1 ) from phones
+select phone, (select count(*) from items where user_id=any(users) and status=1) from phones
+
+или
+
+select phone, sum(i.status) as stock from phones p join items i on i.user_id=any(p.users) group by p.phone
 
 
 2) Который возвращает в одном  запросе количество и проданных  и непроданных
 
-
-#TODO: fix
-
-select phone, (select count(*) from items where user_id = any(users) and status=1 ), (select count(*) from items where user_id = any(users) and status=0 ) from phones
+select phone, sum(i.status), count(*)-sum(i.status) as stock from phones p join items i on i.user_id=any(p.users) group by p.phone
 
