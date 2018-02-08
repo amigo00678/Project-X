@@ -15,6 +15,6 @@ Data test for django ORM, task inside directory.
 
 ### other files
 
-Various solution tests, tasks inside the file.
+Various tests solutions, tasks inside the file.
 
 
