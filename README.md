@@ -1,19 +1,19 @@
 # Project-X
 Some samples of code tasks.
 
-## bastes
+### bastes
 
 A tetris clone. Written in Lua script. Has AI to select the tile worth in current setup to this makes a game more tricky :) Needs some tuning though.
 
-## hpoxy
+### hpoxy
 
 Proxy server test in Python. Project task inside the directory.
 
-## mysite
+### mysite
 
 Data test for django ORM, task inside directory.
 
-## other files
+### other files
 
 Various solution tests, tasks inside the file.
 
