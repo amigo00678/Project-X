@@ -1,9 +1,9 @@
 # Project-X
-Some samples of code tasks.
+Samples of test solutions.
 
 ### bastes
 
-A tetris clone. Written in Lua script. Has AI to select the tile worth in current setup to this makes a game more tricky :) Needs some tuning though.
+A tetris clone. Written in Lua script. Has AI to select the tile worth in current setup to make this game more tricky :) Needs some tuning though.
 
 ### hpoxy
 
@@ -19,6 +19,6 @@ Data test for django ORM, task inside directory.
 
 ### other files
 
-Various tests solutions, tasks inside the files.
+Various test solutions, tasks inside the files.
 
 
