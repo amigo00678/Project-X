@@ -9,6 +9,10 @@ A tetris clone. Written in Lua script. Has AI to select the tile worth in curren
 
 Proxy server test in Python. Project task inside the directory.
 
+### js test
+
+A math test on Javascript language.
+
 ### mysite
 
 Data test for django ORM, task inside directory.
