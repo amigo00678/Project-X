@@ -1,0 +1,159 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-xs-3">
+            <label>Grid size</label>
+            <input class="form-control" value="30" id="grid_dize"></input>
+            <label>Compare value</label>
+            <input class="form-control" value="12" id="compare_to"></input>
+            <label>X</label>
+            <input class="form-control" value="13" id="start_x"></input>
+            <label>Y</label>
+            <input class="form-control" value="7" id="start_y"></input>
+            <label>Show debug</label>
+            <br>
+            <input type="checkbox" checked id="show_debug"></input>
+            <br>
+            <button class="btn btn-primary" onclick="runAll()">Run test</button>
+        </div>
+        <div class="col-xs-3">
+            <h4>Explanation</h4>
+            <p>Enter values and press <span class="fw-bold">Run test</span></p>
+            <p><span class="fw-bold">White area</span> represents <span class="fw-bold">available</span> fields</p>
+            <p><span class="fw-bold">Black area</span> represents <span class="fw-bold">forbidden</span> fields</p>
+            <p><span class="fw-bold">Yellow area</span> represents <span class="fw-bold">available</span> if starting from <span class="fw-bold">[x; y]</span></p>
+        </div>
+    </div>
+    <canvas id="myCanvas" width="1200" height="1200" style="border:1px solid #000000;"></canvas>
+    <style>
+    .fw-bold{
+        font-weight: bold;
+    }
+    </style>
+    <script>
+
+    var gridSize = parseInt($('#grid_dize').val());
+    var compareTo = parseInt($('#compare_to').val());
+    var rectSize = 1200 / gridSize;
+    var showDebug = $('#show_debug').prop('checked');
+
+    var cells = [];
+
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+
+    function addCell(x, y){
+        for (var idx = 0; idx < cells.length; idx++){
+            if (cells[idx].x == x && cells[idx].y == y){
+                return;
+            }
+        }
+        cells.push({x: x, y: y, tested: false});
+    }
+
+    function startTest(x, y){
+        var cellAdded = testNextCell(x, y);
+        while (cellAdded){
+            cellAdded = false;
+            var len = cells.length;
+            for (var idx = 0; idx < len; idx++){
+                if (!cells[idx].tested){
+                    cellAdded = testCell(cells[idx].x, cells[idx].y);
+                    cells[idx].tested = true;
+                }
+            }
+        }
+    }
+
+    function testCell(x, y){
+        var cellAdded = false;
+        if (testNextCell(x, y)) { cellAdded = true; }
+        if (testNextCell(x + 1, y)) { cellAdded = true; }
+        if (testNextCell(x - 1, y)) { cellAdded = true; }
+        if (testNextCell(x, y + 1)) { cellAdded = true; }
+        if (testNextCell(x, y - 1)) { cellAdded = true; }
+        return cellAdded;
+    }
+
+    function testNextCell(x, y){
+        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize && coordsSum(x, y) < compareTo){
+            addCell(x, y); return true;
+        }
+        return false;
+    }
+
+    function drawRect(x, y, fill){
+        ctx.fillStyle = fill;
+        ctx.fillRect(x * rectSize, y * rectSize, rectSize, rectSize);
+    }
+    
+    function coordsSum(x, y){
+        return Math.floor(x / 10) + x % 10 + Math.floor(y / 10) + y % 10;
+    }
+
+    function drawGrid(){
+        for (var x = 0; x < gridSize; x ++){
+            for (var y = 0; y < gridSize; y++){
+                if (coordsSum(x, y) < compareTo){
+                    drawRect(x, y, "white");
+                } else {
+                    drawRect(x, y, "black");
+                }
+            }
+        }
+    }
+
+    function printOut(){
+        if (showDebug){
+            ctx.font = "10px Arial";
+            ctx.fillStyle = "gray";
+            for (var x = 0; x < gridSize; x++){
+                for (var y = 0; y < gridSize; y++){
+                    ctx.fillText(x.toString() + ';' + y.toString() + ';' + coordsSum(x, y).toString(),
+                        x * rectSize, y * rectSize + rectSize / 2);
+                }
+            }
+        }
+    }
+
+    function drawResult(){
+        for (var idx = 0; idx < cells.length; idx++){
+            drawRect(cells[idx].x, cells[idx].y, "yellow");
+        }
+    }
+
+    function runAll(){
+        cells = [];
+        ctx = c.getContext("2d");
+
+        gridSize = parseInt($('#grid_dize').val());
+        compareTo = parseInt($('#compare_to').val());
+        rectSize = 1200 / gridSize;
+        showDebug = $('#show_debug').prop('checked');
+
+        var startX = parseInt($('#start_x').val());
+        var startY = parseInt($('#start_y').val());
+
+        drawGrid();
+        startTest(startX, startY);
+        drawResult();
+        printOut();
+
+        ctx.stroke();
+    }
+
+    $(document).ready(function(){
+    });
+    </script>
+</body>
+</html>

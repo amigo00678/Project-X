@@ -1,0 +1,19 @@
+
+На бесконечной координатной сетке находится муравей. Муравей может
+перемещатся на 1 клетку вверх (x,y+1), вниз (x,y-1), влево (x-1,y),
+вправо (x+1,y), по одной клетке за шаг.
+Клетки, в которых сумма цифр в координате X плюс сумма цифр в
+координате Y больше чем 25 недоступны
+муравью. Например, клетка с координатами (59, 79) недоступна, т.к.
+5+9+7+9=30, что больше 25.
+Сколько cклеток может посетить муравей если его начальная позиция (1000,1000), (включая начальную клетку).
+Прислать ответ и решение в виде числа клеток и скрипта на языке
+Javascript, отрисовывающего на canvas площадь доступную муравью.
+
+On endless coordinate grid an ant is crawling. It can move left (x-1, y),
+right (x+1, y), up (x, y-1), down (x, y+1), one cell at once.
+Cells where digits summ is larger than 25 are not allowed.
+For examplce, cell (59, 79) is not allowed, 5+9+7+9=30, more than 25.
+How much cells an ant can visit if it's start position is (1000, 1000) (including start cell).
+The answer should be a Javascript script, which draws on canvas the area available for the ant.
+
